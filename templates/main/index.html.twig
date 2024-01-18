@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MainController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    {% if app.user %}
+        <h4>Hello {{ app.user.username }}! -     <a href="/logout">Log Out</a>  -     <a href="/user/{{app.user.id}}">My profile</a>  </h4>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="/raffle/new">Crear nuevo sorteo</a>
+        {% endif %}
+    
+    {% else %}
+        <a href="/login">Log In</a>
+    {% endif %}
+    <div style="display:flex; gap:2rem">
+        {% for raffle in raffles %}
+            <div>
+                <p>Sorteo: {{ raffle.name }}</p>
+                <p>Premio: {{ raffle.prize }}</p>
+                <p>Coste de boleto: {{ raffle.pricePerTicket }}</p>
+                <p>Hora del sorteo: <br>{{ raffle.dateTime|date('Y-m-d H:i:s') }}</p>
+                <p>Boletos disponibles:{{ raffle.tickets|length  }} </p>
+                <a href="">Comprar boleto</a>
+                <p>Boletos comprados: </p>
+            </div>
+        {% endfor %}
+    </div>
+
+
+</div>
+{% endblock %}

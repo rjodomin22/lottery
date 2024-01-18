@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Raffle{% endblock %}
+
+{% block body %}
+    <h1>Raffle</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ raffle.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ raffle.name }}</td>
+            </tr>
+            <tr>
+                <th>DateTime</th>
+                <td>{{ raffle.dateTime ? raffle.dateTime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Prize</th>
+                <td>{{ raffle.prize }}</td>
+            </tr>
+            <tr>
+                <th>PricePerTicket</th>
+                <td>{{ raffle.pricePerTicket }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_raffle_index') }}">back to list</a>
+
+    <a href="{{ path('app_raffle_edit', {'id': raffle.id}) }}">edit</a>
+
+    {{ include('raffle/_delete_form.html.twig') }}
+{% endblock %}

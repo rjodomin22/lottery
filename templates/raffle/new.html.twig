@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Raffle{% endblock %}
+
+{% block body %}
+    <h1>Create new Raffle</h1>
+
+    {{ include('raffle/_form.html.twig') }}
+
+    <a href="{{ path('app_raffle_index') }}">back to list</a>
+{% endblock %}

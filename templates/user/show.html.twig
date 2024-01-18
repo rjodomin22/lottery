@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+    <h1>User</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Username</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+            </tr>
+            {% if app.user.id == user.id  %}
+            <tr>
+                <th>Password</th>
+                <td>{{ user.password }}</td>
+            </tr> 
+            {% endif %}
+            <tr>
+                <th>Money</th>
+                <td>{{ user.money }} {% if app.user.id == user.id  %}<form method="POST" action="{{ path('app_user_ingresar', {'id': user.id}) }}">
+                    <input type="number" name="moneyInvest"></input>
+                    <button type="submit">Ingresar dinero</button>                
+                {% endif %}</td>
+            </tr>
+            <tr>
+                <th>TotalProfit</th>
+                <td>{{ user.totalProfit }}</td>
+            </tr>
+            <tr>
+                <th>Total_invested</th>
+                <td>{{ user.totalInvested }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_user_index') }}">back to list</a>
+
+    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+
+    {{ include('user/_delete_form.html.twig') }}
+{% endblock %}
