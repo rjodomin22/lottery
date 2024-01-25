@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Raffle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**

@@ -12,11 +12,15 @@
     {% if app.user %}
         <h4>Hello {{ app.user.username }}! -     <a href="/logout">Log Out</a>  -     <a href="/user/{{app.user.id}}">My profile</a>  </h4>
         {% if is_granted('ROLE_ADMIN') %}
-            <a href="/raffle/new">Crear nuevo sorteo</a>
+            <a href="/raffle/new">Crear nuevo sorteo</a>            
+            <br />
+            <a href="/user">Administrar usuarios</a>
         {% endif %}
     
     {% else %}
         <a href="/login">Log In</a>
+        <br />
+        <a href="/register">Registrate aquí</a>
     {% endif %}
     <div style="display:flex; gap:2rem">
         {% for raffle in raffles %}

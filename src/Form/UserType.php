@@ -19,6 +19,7 @@ class UserType extends AbstractType
             ->add('money')
             ->add('totalProfit')
             ->add('total_invested')
+            ->add('total_wins')
         ;
     }
 
