@@ -27,11 +27,14 @@
             {% endif %}
             <tr>
                 <th>Money</th>
-                <td> {{ user.money is null ? 0 : user.money }} {% if app.user.id == user.id  %}
+                <td> 
+                {{ user.money is null ? 0 : user.money }} {% if app.user.id == user.id  %}
                 <form method="POST" action="{{ path('app_user_ingresar', {'id': user.id}) }}">
                     <input type="number" name="moneyInvest" min="1"></input>
-                    <button type="submit">Ingresar dinero</button> </form>               
-                {% endif %}</td>
+                    <button type="submit">Ingresar dinero</button> 
+                </form>               
+                {% endif %}
+                </td>
             </tr>
             <tr>
                 <th>TotalProfit</th>

@@ -76,6 +76,10 @@ class TicketController extends AbstractController
         $user = $this->getUser();
         $selectedTicketId = $request->request->get('selectedTicket');
         $ticket = $entityManager->getRepository(Ticket::class)->find($selectedTicketId);
+        /* if ($ticket->getBuyer() != null) {
+            return $this->redirectToRoute('app_main',['error' => "ese ticket ya esta vendido"]);
+        } */
+
         if ($selectedTicketId && $raffle->getDateTime() > new \DateTime()) {
             if ($user->getMoney() - $raffle->getPricePerTicket() >= 0 ) {
                 $user ->setMoney($user->getMoney() - $raffle->getPricePerTicket());
