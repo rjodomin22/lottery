@@ -46,6 +46,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?float $total_invested = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $total_wins = null;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
@@ -214,6 +217,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTotalInvested(?float $total_invested): static
     {
         $this->total_invested = $total_invested;
+
+        return $this;
+    }
+
+    public function getTotalWins(): ?int
+    {
+        return $this->total_wins;
+    }
+
+    public function setTotalWins(?int $total_wins): static
+    {
+        $this->total_wins = $total_wins;
 
         return $this;
     }

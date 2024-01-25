@@ -15,11 +15,15 @@
         <p style="color:red">{{ error }}</p>
         {% endif %}
         {% if is_granted('ROLE_ADMIN') %}
-            <a href="/raffle/new">Crear nuevo sorteo</a>
+            <a href="/raffle/new">Crear nuevo sorteo</a>            
+            <br />
+            <a href="/user">Administrar usuarios</a>
         {% endif %}
     
     {% else %}
         <a href="/login">Log In</a>
+        <br />
+        <a href="/register">Registrate aquí</a>
     {% endif %}
     <div style="display:flex; gap:2rem">
     {% if raffles is defined %}

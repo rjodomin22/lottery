@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Notification;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -45,4 +46,27 @@ class NotificationRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+// public function findOneByWinnerId($users,EntityManagerInterface $entityManager){
+//         $winCounts = [];
+
+//         foreach ($users as $user) {
+//             $userId = $user->getId();
+
+//             $query = $entityManager->createQuery('
+//                 SELECT COUNT(n.id) as winCount
+//                 FROM App\Entity\Notification n
+//                 WHERE n.user = :userId
+//             ');
+//             $query->setParameter('userId', $userId);
+
+//             $result = $query->getSingleResult();
+//             $winCount = $result['winCount'];
+
+//             $winCounts[$userId] = $winCount;
+//         }
+
+//         return $winCounts;
+    
+//     }
 }

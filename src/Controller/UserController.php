@@ -7,6 +7,7 @@ use App\Entity\Raffle;
 use App\Entity\Notification;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Repository\NotificationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,6 +26,37 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/money', name: 'app_user_money', methods: ['GET'])]
+    public function listUsersMoney(UserRepository $userRepository): Response
+    {
+        $users = $userRepository->findBy([], ['money' => 'DESC']);
+
+        return $this->render('user/index.html.twig', [
+            'users' => $users,
+        ]);
+    }
+
+    #[Route('/totalInvested', name: 'app_user_totalInvest', methods: ['GET'])]
+    public function listUsersTotalInvested(UserRepository $userRepository): Response
+    {
+        $users = $userRepository->findBy([], ['total_invested' => 'DESC']);
+
+        return $this->render('user/index.html.twig', [
+            'users' => $users,
+        ]);
+    }
+
+    #[Route('/wins', name: 'app_user_winnerTickets', methods: ['GET'])]
+    public function listUsersGetWinCounts(UserRepository $userRepository): Response
+    {
+        $users = $userRepository->findAllOrderByTotalWinsDesc();
+
+        return $this->render('user/index.html.twig', [
+            'users' => $users,
+        ]);
+    }
+
+    
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {

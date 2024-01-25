@@ -4,7 +4,12 @@
 
 {% block body %}
     <h1>User index</h1>
-
+    <br />
+    <h3>Ordenar por: </h3> - 
+    <a href="{{ path('app_user_money')}}">Saldo actual</a> -
+    <a href="{{ path('app_user_totalInvest')}}">Gasto total</a> -
+    <a href="{{ path('app_user_winnerTickets')}}">Victorias totales</a> 
+    <br />
     <table class="table">
         <thead>
             <tr>
@@ -16,6 +21,7 @@
                 <th>TotalProfit</th>
                 <th>Total_invested</th>
                 <th>actions</th>
+                <th>Total Wins</th>
             </tr>
         </thead>
         <tbody>
@@ -32,6 +38,7 @@
                     <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
                     <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
                 </td>
+                <td>{{ user.totalWins }}</td>
             </tr>
         {% else %}
             <tr>
