@@ -29,6 +29,7 @@ class MainController extends AbstractController
                 shuffle($tickets);
                 $raffle->setWinner($tickets[0]);
                 if ($tickets[0]->getBuyer() != null) {
+                    $tickets[0]->getBuyer()->setTotalWins($tickets[0]->getBuyer()->getTotalWins()+1);
                     $notification = new Notification();
                     $notification->setUser($tickets[0]->getBuyer());
                     $notification->setDateTime( new \DateTime());

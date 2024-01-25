@@ -77,10 +77,12 @@ class TicketController extends AbstractController
         $selectedTicketId = $request->request->get('selectedTicket');
         $ticket = $entityManager->getRepository(Ticket::class)->find($selectedTicketId);
         if ($selectedTicketId && $raffle->getDateTime() > new \DateTime()) {
-            if ($user->getMoney() - $raffle->getPricePerTicket() > 0 ) {
+            if ($user->getMoney() - $raffle->getPricePerTicket() >= 0 ) {
                 $user ->setMoney($user->getMoney() - $raffle->getPricePerTicket());
+                $user ->setTotalSpentInTickets($user->getTotalSpentInTickets() + $raffle->getPricePerTicket());
                 $ticket->setBuyer($user);
-                $entityManager->persist($ticket,$user);
+                $entityManager->persist($user);
+                $entityManager->persist($ticket);
                 $entityManager->flush();
              }   
              else {
