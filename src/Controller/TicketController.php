@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Raffle;
+use App\Entity\User;
 use App\Entity\Ticket;
 use App\Form\TicketType;
 use App\Repository\TicketRepository;
@@ -67,6 +69,28 @@ class TicketController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/{id}', name: 'app_ticket_comprar', methods: ['POST'])]
+    public function comprarticket(Request $request, Raffle $raffle, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+        $selectedTicketId = $request->request->get('selectedTicket');
+        $ticket = $entityManager->getRepository(Ticket::class)->find($selectedTicketId);
+        if ($selectedTicketId && $raffle->getDateTime() > new \DateTime()) {
+            if ($user->getMoney() - $raffle->getPricePerTicket() > 0 ) {
+                $user ->setMoney($user->getMoney() - $raffle->getPricePerTicket());
+                $ticket->setBuyer($user);
+                $entityManager->persist($ticket,$user);
+                $entityManager->flush();
+             }   
+             else {
+                
+                return $this->redirectToRoute('app_main',['error' => "ingresa dineroooo"]);
+             }
+        } 
+        return $this->redirectToRoute('app_main');
+    }
+
 
     #[Route('/{id}', name: 'app_ticket_delete', methods: ['POST'])]
     public function delete(Request $request, Ticket $ticket, EntityManagerInterface $entityManager): Response

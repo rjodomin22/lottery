@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\RaffleRepository;
+use App\Entity\Criteria;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -121,7 +122,15 @@ class Raffle
 
         return $this;
     }
+    /* public function getTicketsWithNullBuyerId(): Collection
+    {
+        // Create a criteria to filter tickets with null buyer_id
+        $criteria = Criteria::create()->where(Criteria::expr()->eq('buyer_id', null));
 
+        // Apply the criteria to the tickets collection
+        return $this->tickets->matching($criteria);
+    }
+ */
     public function removeTicket(Ticket $ticket): static
     {
         if ($this->tickets->removeElement($ticket)) {

@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Raffle;
+use App\Entity\Notification;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -62,11 +64,33 @@ class UserController extends AbstractController
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
     public function show(User $user): Response
     {
-        
+        if ($user = $this->getUser()) {
+            $notifications = $user->getNotifications()->filter(function ($notification) {
+                return $notification->getAccepted() == 0;
+            });
+            $pastnotifications = $user->getNotifications()->filter(function ($notification) {
+                return $notification->getAccepted() == 1;
+            });
+        }
         return $this->render('user/show.html.twig', [
             'user' => $user,
+            'notifications' => $notifications,
+            'pastnotifications' => $pastnotifications
         ]);
     }
+
+    #[Route('/{id}/accept', name: 'app_user_acceptnotification', methods: ['GET', 'POST'])]
+    public function accept(Notification $notification, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+        $notification ->  setAccepted(1);
+        $raffle =$notification ->getRaffleNotification();
+        $user->setMoney($user->getMoney() + $raffle->getPrize());
+        $user->setTotalProfit($user->getTotalProfit() + $raffle->getPrize());
+        $entityManager->flush();
+        return $this->redirectToRoute('app_user_show',['id' => $user->getId()]);
+    }
+
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response

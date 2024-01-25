@@ -43,7 +43,7 @@ class RaffleController extends AbstractController
             $entityManager->persist($raffle);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_raffle_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_main', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('raffle/new.html.twig', [
@@ -88,4 +88,7 @@ class RaffleController extends AbstractController
 
         return $this->redirectToRoute('app_raffle_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+    
 }

@@ -10,7 +10,10 @@
 
 <div class="example-wrapper">
     {% if app.user %}
-        <h4>Hello {{ app.user.username }}! -     <a href="/logout">Log Out</a>  -     <a href="/user/{{app.user.id}}">My profile</a>  </h4>
+        <h4>Hello {{ app.user.username }}! -     <a href="/logout">Log Out</a>  -     <a href="/user/{{app.user.id}}">My profile</a> -{% if notifications is defined %} tienes  {{notifications|length}}  notificaciones{% endif  %} </h4>
+        {% if error is defined %}
+        <p style="color:red">{{ error }}</p>
+        {% endif %}
         {% if is_granted('ROLE_ADMIN') %}
             <a href="/raffle/new">Crear nuevo sorteo</a>
         {% endif %}
@@ -19,17 +22,36 @@
         <a href="/login">Log In</a>
     {% endif %}
     <div style="display:flex; gap:2rem">
+    {% if raffles is defined %}
         {% for raffle in raffles %}
+        
             <div>
                 <p>Sorteo: {{ raffle.name }}</p>
                 <p>Premio: {{ raffle.prize }}</p>
                 <p>Coste de boleto: {{ raffle.pricePerTicket }}</p>
                 <p>Hora del sorteo: <br>{{ raffle.dateTime|date('Y-m-d H:i:s') }}</p>
-                <p>Boletos disponibles:{{ raffle.tickets|length  }} </p>
-                <a href="">Comprar boleto</a>
-                <p>Boletos comprados: </p>
-            </div>
+                <p>Boletos totales: {{ raffle.tickets|length}}   </p>
+                <p>Boletos disponibles:{{ raffle.tickets|filter(ticket => ticket.buyer is null)|length  }} </p>
+                 {% if raffle.tickets|filter(ticket => ticket.buyer is null)|length != 0 %}
+               <form method="POST" action="{{ path('app_ticket_comprar', {'id': raffle.id}) }}">
+    <label for="selectedTicket">Select a ticket:</label>
+    <select id="selectedTicket" name="selectedTicket">
+        {% for ticket in raffle.getTickets %}
+            {% if ticket.buyer == null %}
+                <option value="{{ ticket.id }}">Ticket number: {{ ticket.id }}</option>
+            {% endif %}
         {% endfor %}
+    </select>
+    <button type="submit">Buy Ticket</button>
+</form>
+                {% endif %}
+                 {% if app.user.id is defined %}
+                <p>Boletos comprados por mi:{{ raffle.tickets|filter(ticket => ticket.buyer is not null and ticket.buyer.id == app.user.id)|length }} </p>
+           {% endif %}
+            </div>
+            
+        {% endfor %}
+        {% endif %}
     </div>
 
 

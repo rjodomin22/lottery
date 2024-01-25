@@ -22,14 +22,15 @@
             {% if app.user.id == user.id  %}
             <tr>
                 <th>Password</th>
-                <td>{{ user.password }}</td>
+                <td>{# {{ user.password }} #}*********</td>
             </tr> 
             {% endif %}
             <tr>
                 <th>Money</th>
-                <td>{{ user.money }} {% if app.user.id == user.id  %}<form method="POST" action="{{ path('app_user_ingresar', {'id': user.id}) }}">
-                    <input type="number" name="moneyInvest"></input>
-                    <button type="submit">Ingresar dinero</button>                
+                <td>{{ user.money }} {% if app.user.id == user.id  %}
+                <form method="POST" action="{{ path('app_user_ingresar', {'id': user.id}) }}">
+                    <input type="number" name="moneyInvest" min="1"></input>
+                    <button type="submit">Ingresar dinero</button> </form>               
                 {% endif %}</td>
             </tr>
             <tr>
@@ -42,10 +43,29 @@
             </tr>
         </tbody>
     </table>
+  {% if notifications  %}
+           <h3>Notificaciones</h3>
+            {% endif %}
+    
+      {% for notification in notifications %}
+            <p style="margin-bottom:0px"> {{notification.text}} ----> <a href="/user/{{notification.id}}/accept">Aceptar</a>  </p>
+       
+      {%  endfor %}
+    <br/>
+    <br/>
+     {% if pastnotifications  %}
+           <h3>Sorteos pasados</h3>
+            {% endif %}
+    {% for pastnotification in pastnotifications %}
+    {#  {{ dump(pastnotification) }} #}
+            <p style="margin-bottom:0px">Ganaste {{pastnotification.raffle_notification.prize}} dineros en el sorteo {{pastnotification.raffle_notification.name}}  </p>
+       
+      {%  endfor %}
+      <br/>
+    <br/>
+    <a href="{{ path('app_main') }}">back to home</a>
 
-    <a href="{{ path('app_user_index') }}">back to list</a>
+    {# <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a> #}
 
-    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
-
-    {{ include('user/_delete_form.html.twig') }}
+  {#   {{ include('user/_delete_form.html.twig') }} #}
 {% endblock %}

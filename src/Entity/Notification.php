@@ -24,7 +24,7 @@ class Notification
     private ?User $user = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Raffle $raffle_notification = null;
+    public ?Raffle $raffle_notification = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $accepted = null;
